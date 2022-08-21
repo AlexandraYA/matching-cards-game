@@ -1,0 +1,54 @@
+import Zebra from '../assets/images/zebra.png'
+import Chicken from '../assets/images/chicken.png'
+import Cow from '../assets/images/cow.png'
+import Dog1 from '../assets/images/dog-1.png'
+import Dog2 from '../assets/images/dog-2.png'
+import Dog3 from '../assets/images/dog-3.png'
+import Donkey from '../assets/images/donkey.png'
+import Duck from '../assets/images/duck.png'
+import Fisher from '../assets/images/fisher.jpg'
+import Giena from '../assets/images/giena.png'
+import Goat from '../assets/images/goat.png'
+import Hippo from '../assets/images/hippo.png'
+import Horse from '../assets/images/horse.png'
+import KotikSea from '../assets/images/kotik-sea.png'
+import Leopard from '../assets/images/leopard.png'
+import Monkey from '../assets/images/monkey.png'
+import PartyDog from '../assets/images/party-dog.png'
+import Penguin from '../assets/images/penguin.png'
+import Pig from '../assets/images/pig.png'
+import PinkDog from '../assets/images/pink-dog.png'
+import Pug from '../assets/images/pug.png'
+import Seal from '../assets/images/seal.png'
+import Sheep from '../assets/images/sheep.png'
+import WhiteBear from '../assets/images/white-bear.png'
+
+
+const cards = [
+  {id: 11, src: Zebra},
+  {id: 12, src: Chicken},
+  {id: 13, src: Cow},
+  {id: 14, src: Dog1},
+  {id: 15, src: Dog2},
+  {id: 16, src: Dog3},
+  {id: 17, src: Donkey},
+  {id: 18, src: Duck},
+  {id: 19, src: Fisher},
+  {id: 20, src: Giena},
+  {id: 21, src: Goat},
+  {id: 22, src: Hippo},
+  {id: 23, src: Horse},
+  {id: 24, src: KotikSea},
+  {id: 25, src: Leopard},
+  {id: 26, src: Monkey},
+  {id: 27, src: PartyDog},
+  {id: 28, src: Penguin},
+  {id: 29, src: Pig},
+  {id: 30, src: PinkDog},
+  {id: 31, src: Pug},
+  {id: 32, src: Seal},
+  {id: 33, src: Sheep},
+  {id: 34, src: WhiteBear},
+]
+
+export { cards }

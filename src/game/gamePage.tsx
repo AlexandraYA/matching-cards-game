@@ -6,6 +6,7 @@ type TField = {
   id: number;
   src: string;
   show?: boolean;
+  found?: boolean;
 }
 
 const LEVEL_1 = 6
@@ -35,11 +36,11 @@ const GamePage: React.FC = () => {
 
     while (i < cardsAmount) {
       let rnd = Math.floor(Math.random() * allCards)
-      
+
       if (!_field.find(f => f.id === cards[rnd].id)) {
         _field.push.apply(_field, [{
-          ...cards[rnd], show: false},
-          {...cards[rnd], show: false}
+          ...cards[rnd], show: false, found: false},
+          {...cards[rnd], show: false, found: false}
         ])
   
         i++
@@ -61,17 +62,28 @@ const GamePage: React.FC = () => {
 
   const openCard = (cardInd: number) => {
     let _choosed: number[] = []
+    let choosedEqual: boolean = false
 
     if (choosedCards.length < 2) {
       _choosed = [...choosedCards, cardInd]
     } else {
       _choosed = [cardInd]
     }
+
+    if (_choosed.length === 2 && field[_choosed[0]].id === field[_choosed[1]].id) {
+      choosedEqual = true
+    }
     
     setChoosedCards(_choosed)
     setStep(step + 1)
 
-    setField(field.map((f, ind) => _choosed.includes(ind) ? {...f, show: true} : {...f, show: false}))
+    setField(field.map((f, ind) => {
+      if (choosedEqual && _choosed.includes(ind)) {
+        return {...f, show: true, found: true}
+      } else if (_choosed.includes(ind) || f.found) {
+        return {...f, show: true}
+      } else return {...f, show: false}
+    }))
   }
 
   return ( 

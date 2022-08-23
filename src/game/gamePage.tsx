@@ -77,13 +77,22 @@ const GamePage: React.FC = () => {
     setChoosedCards(_choosed)
     setStep(step + 1)
 
-    setField(field.map((f, ind) => {
+    let _field = field.map((f, ind) => {
       if (choosedEqual && _choosed.includes(ind)) {
         return {...f, show: true, found: true}
       } else if (_choosed.includes(ind) || f.found) {
         return {...f, show: true}
       } else return {...f, show: false}
-    }))
+    })
+
+    setField(_field)
+
+    if (_field.every(f => f.found)) {
+      setTimeout(() => {
+        fillField(level === 1 ? LEVEL_2 : LEVEL_3)
+        setLevel(level + 1)
+      }, 2000)
+    }
   }
 
   return ( 

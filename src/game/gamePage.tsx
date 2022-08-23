@@ -13,12 +13,14 @@ const LEVEL_1 = 6
 const LEVEL_2 = 12
 const LEVEL_3 = 24
 
+let timeoutID: any = null
+
 
 const GamePage: React.FC = () => {
   const cards = useContext(CardsBase);
 
   const  [ level, setLevel ] = useState<number>(1)
-  const  [ started, setStarted ] = useState<boolean>(false)
+  const  [ mode, setMode ] = useState<'greeting' | 'start' | 'end' | 'loading'>('greeting')
   const  [ step, setStep ] = useState<number>(0)
   const  [ choosedCards, setChoosedCards ] = useState<number[]>([])
   const  [ field, setField ] = useState<TField[]>([])
@@ -27,6 +29,8 @@ const GamePage: React.FC = () => {
     if (level === 1 && !field.length) {
       fillField(LEVEL_1)
     }
+
+    return () => clearTimeout(timeoutID)
   }, [])
 
   const fillField = (cardsAmount: number) => {
@@ -57,7 +61,7 @@ const GamePage: React.FC = () => {
     if (level !== 1) {
       setLevel(1)
     }
-    setStarted(true)
+    setMode('start')
   }
 
   const openCard = (cardInd: number) => {
@@ -88,10 +92,20 @@ const GamePage: React.FC = () => {
     setField(_field)
 
     if (_field.every(f => f.found)) {
-      setTimeout(() => {
-        fillField(level === 1 ? LEVEL_2 : LEVEL_3)
-        setLevel(level + 1)
-      }, 2000)
+      if ([1,2].includes(level)) {
+        setMode('loading')
+        timeoutID = setTimeout(() => {
+          fillField(level === 1 ? LEVEL_2 : LEVEL_3)
+          setLevel(level + 1)
+          setStep(0)
+          setMode('start')
+        }, 2000)
+      } else {
+        setLevel(1)
+        setStep(0)
+        setMode('end')
+        fillField(LEVEL_1)
+      }
     }
   }
 
@@ -99,15 +113,22 @@ const GamePage: React.FC = () => {
     <div className='container'>
       <header className='header'>
         <h1 className='main-title'>Найди все совпадения</h1>
-        <h3>Уровень {level}</h3>
+        <h3 className='rules'><span>Уровень {level}</span><span>Шаг {step}</span></h3>
       </header>
       <div className='playground'>
-        {!started &&
+        {(mode === 'greeting' || mode === 'end') &&
           <div className='coverage'>
-            <button className='button' onClick={startGame}>Играть</button>
+            <button className='button' onClick={startGame}>
+              {mode === 'greeting' ? "Играть" : " Сыграть заново?"}
+            </button>
           </div>
         }
-        <div className='field'>
+        {mode === 'loading' &&
+          <div className='coverage'>
+            <button className='button'>Загружаем следующий уровень</button>
+          </div>
+        }
+        <div className={`field level${level}`}>
           {field.map((card: TField, ind: number) => (
             <div
               key={ind}

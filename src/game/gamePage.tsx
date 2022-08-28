@@ -1,17 +1,16 @@
 import React, { useState, useContext, useEffect } from 'react'
 import { CardsBase } from '../store/context'
-import CardBack from '../assets/images/card-back-black.png'
+import { Header } from './components/Header' 
+import { Footer } from './components/Footer'
+import { Card } from './components/Card'
+import { Loading } from './components/Loading'
+import { StartPanel } from './components/StartPanel'
+import { TField } from '../store/types'
 
-type TField = {
-  id: number;
-  src: string;
-  show?: boolean;
-  found?: boolean;
-}
 
-const LEVEL_1 = 6
-const LEVEL_2 = 12
-const LEVEL_3 = 24
+const LEVEL_1 = {steps: 20, cards: 6}
+const LEVEL_2 = {steps: 40, cards: 12}
+const LEVEL_3 = {steps: 80, cards: 24}
 
 let timeoutID: any = null
 
@@ -27,7 +26,7 @@ const GamePage: React.FC = () => {
 
   useEffect(() => {
     if (level === 1 && !field.length) {
-      fillField(LEVEL_1)
+      fillField(LEVEL_1.cards)
     }
 
     return () => clearTimeout(timeoutID)
@@ -56,11 +55,12 @@ const GamePage: React.FC = () => {
 
   const startGame = () => {
     if (!field.length) {
-      fillField(LEVEL_1)
+      fillField(LEVEL_1.cards)
     }
     if (level !== 1) {
       setLevel(1)
     }
+    setStep(LEVEL_1.steps)
     setMode('start')
   }
 
@@ -79,7 +79,7 @@ const GamePage: React.FC = () => {
     }
     
     setChoosedCards(_choosed)
-    setStep(step + 1)
+    setStep(step - 1)
 
     let _field = field.map((f, ind) => {
       if (choosedEqual && _choosed.includes(ind)) {
@@ -95,57 +95,39 @@ const GamePage: React.FC = () => {
       if ([1,2].includes(level)) {
         setMode('loading')
         timeoutID = setTimeout(() => {
-          fillField(level === 1 ? LEVEL_2 : LEVEL_3)
+          fillField(level === 1 ? LEVEL_2.cards : LEVEL_3.cards)
           setLevel(level + 1)
-          setStep(0)
+          setStep(level === 1 ? LEVEL_2.steps : LEVEL_3.steps)
           setMode('start')
         }, 2000)
       } else {
         setLevel(1)
-        setStep(0)
+        setStep(LEVEL_1.steps)
         setMode('end')
-        fillField(LEVEL_1)
+        fillField(LEVEL_1.cards)
       }
     }
   }
 
   return ( 
     <div className='container'>
-      <header className='header'>
-        <h1 className='main-title'>Найди все совпадения</h1>
-        <h3 className='rules'><span>Уровень {level}</span><span>Шаг {step}</span></h3>
-      </header>
+      <Header level={level} step={step} />
       <div className='playground'>
         {(mode === 'greeting' || mode === 'end') &&
-          <div className='coverage'>
-            <button className='button' onClick={startGame}>
-              {mode === 'greeting' ? "Играть" : " Сыграть заново?"}
-            </button>
-          </div>
+          <StartPanel startGame={startGame} mode={mode} />
         }
-        {mode === 'loading' &&
-          <div className='coverage'>
-            <button className='button'>Загружаем следующий уровень</button>
-          </div>
-        }
+        {mode === 'loading' && <Loading /> }
         <div className={`field level${level}`}>
           {field.map((card: TField, ind: number) => (
-            <div
-              key={ind}
-              className={card.show ? "open" : ""}
-              onClick={(e: React.MouseEvent<HTMLDivElement, MouseEvent>) => openCard(ind)}
-            >
-              <img className='image-face' src={card.src} alt={`card face ${card.id}`} />
-              <img className='image-back' src={CardBack} alt="card back" />
-            </div>
+            <Card 
+              ind={ind}
+              card={card}
+              openCard={openCard}
+            />
           ))}
         </div>
       </div>
-      <footer className='footer'>
-        <a href="https://www.flaticon.com/ru/free-stickers/" rel='noreferrer' title="свинья стикеры" target="_blank">
-          Стикеры от Stickers - Flaticon
-        </a>
-      </footer>
+      <Footer />
     </div>
   )
 }

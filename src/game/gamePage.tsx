@@ -64,49 +64,55 @@ const GamePage: React.FC = () => {
     setMode('start')
   }
 
-  const openCard = (cardInd: number) => {
-    let _choosed: number[] = []
-    let choosedEqual: boolean = false
+  const checkChoosedCards = (cardInd: number) => {
+      if (choosedCards.length < 2) {
+          return [...choosedCards, cardInd]
+      } else return [cardInd]
+  }
 
-    if (choosedCards.length < 2) {
-      _choosed = [...choosedCards, cardInd]
-    } else {
-      _choosed = [cardInd]
-    }
+  const prepareCards = (choosedEqual: boolean, _choosed: number[]) => {
+      return field.map((f: TField, ind: number) => {
+        if (choosedEqual && _choosed.includes(ind)) {
+          return {...f, show: true, found: true}
+        } else if (_choosed.includes(ind) || f.found) {
+          return {...f, show: true}
+        } else return {...f, show: false}
+      })
+  }
+
+  const checkIfEnd = (_field: TField[]) => {
+      if (_field.every(f => f.found)) {
+          if ([1,2].includes(level)) {
+            setMode('loading')
+            timeoutID = setTimeout(() => {
+              fillField(level === 1 ? LEVEL_2.cards : LEVEL_3.cards)
+              setLevel(level + 1)
+              setStep(level === 1 ? LEVEL_2.steps : LEVEL_3.steps)
+              setMode('start')
+            }, 2000)
+          } else {
+            setLevel(1)
+            setStep(LEVEL_1.steps)
+            setMode('end')
+            fillField(LEVEL_1.cards)
+          }
+      }
+  }
+
+  const openCard = (cardInd: number) => {
+    let choosedEqual: boolean = false
+    const _choosed: number[] = checkChoosedCards(cardInd)    
 
     if (_choosed.length === 2 && field[_choosed[0]].id === field[_choosed[1]].id) {
       choosedEqual = true
     }
-    
+
+    let _field = prepareCards(choosedEqual, _choosed)
+
     setChoosedCards(_choosed)
     setStep(step - 1)
-
-    let _field = field.map((f, ind) => {
-      if (choosedEqual && _choosed.includes(ind)) {
-        return {...f, show: true, found: true}
-      } else if (_choosed.includes(ind) || f.found) {
-        return {...f, show: true}
-      } else return {...f, show: false}
-    })
-
     setField(_field)
-
-    if (_field.every(f => f.found)) {
-      if ([1,2].includes(level)) {
-        setMode('loading')
-        timeoutID = setTimeout(() => {
-          fillField(level === 1 ? LEVEL_2.cards : LEVEL_3.cards)
-          setLevel(level + 1)
-          setStep(level === 1 ? LEVEL_2.steps : LEVEL_3.steps)
-          setMode('start')
-        }, 2000)
-      } else {
-        setLevel(1)
-        setStep(LEVEL_1.steps)
-        setMode('end')
-        fillField(LEVEL_1.cards)
-      }
-    }
+    checkIfEnd(_field)
   }
 
   return ( 

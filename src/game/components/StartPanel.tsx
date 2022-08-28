@@ -8,7 +8,7 @@ interface IStartPanel {
 const StartPanel: React.FC<IStartPanel> = ({ startGame, mode }) => (
     <div className='coverage'>
         <button className='button' onClick={startGame}>
-          {mode === 'greeting' ? "Играть" : " Сыграть заново?"}
+          {mode === 'greeting' ? "Играть" : "Вы проиграли(( Сыграть заново?"}
         </button>
     </div>
 )

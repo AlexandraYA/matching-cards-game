@@ -20,7 +20,7 @@ const GamePage: React.FC = () => {
 
   const  [ level, setLevel ] = useState<number>(1)
   const  [ mode, setMode ] = useState<'greeting' | 'start' | 'end' | 'loading'>('greeting')
-  const  [ step, setStep ] = useState<number>(0)
+  const  [ step, setStep ] = useState<number>(LEVEL_1.steps)
   const  [ choosedCards, setChoosedCards ] = useState<number[]>([])
   const  [ field, setField ] = useState<TField[]>([])
 
@@ -54,13 +54,6 @@ const GamePage: React.FC = () => {
   }
 
   const startGame = () => {
-    if (!field.length) {
-      fillField(LEVEL_1.cards)
-    }
-    if (level !== 1) {
-      setLevel(1)
-    }
-    setStep(LEVEL_1.steps)
     setMode('start')
   }
 
@@ -80,6 +73,14 @@ const GamePage: React.FC = () => {
       })
   }
 
+  const endGame = (ifEnd: boolean) => {
+      setMode(ifEnd ? 'end' : 'greeting')
+      fillField(LEVEL_1.cards)
+      setStep(LEVEL_1.steps)
+      setLevel(1)
+      setChoosedCards([])
+  }
+
   const checkIfEnd = (_field: TField[]) => {
       if (_field.every(f => f.found)) {
           if ([1,2].includes(level)) {
@@ -91,17 +92,18 @@ const GamePage: React.FC = () => {
               setMode('start')
             }, 2000)
           } else {
-            setLevel(1)
-            setStep(LEVEL_1.steps)
-            setMode('end')
-            fillField(LEVEL_1.cards)
+            endGame(false)
           }
+      } else if (step === 0) {
+        endGame(true)
+      } else {
+        setStep(step - 1)
       }
   }
 
   const openCard = (cardInd: number) => {
     let choosedEqual: boolean = false
-    const _choosed: number[] = checkChoosedCards(cardInd)    
+    const _choosed: number[] = checkChoosedCards(cardInd)
 
     if (_choosed.length === 2 && field[_choosed[0]].id === field[_choosed[1]].id) {
       choosedEqual = true
@@ -110,7 +112,6 @@ const GamePage: React.FC = () => {
     let _field = prepareCards(choosedEqual, _choosed)
 
     setChoosedCards(_choosed)
-    setStep(step - 1)
     setField(_field)
     checkIfEnd(_field)
   }
@@ -126,9 +127,9 @@ const GamePage: React.FC = () => {
         <div className={`field level${level}`}>
           {field.map((card: TField, ind: number) => (
             <Card 
-              ind={ind}
+              key={ind}
               card={card}
-              openCard={openCard}
+              openCard={() => openCard(ind)}
             />
           ))}
         </div>

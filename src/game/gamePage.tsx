@@ -124,7 +124,7 @@ const GamePage: React.FC = () => {
           <StartPanel startGame={startGame} mode={mode} />
         }
         {mode === 'loading' && <Loading /> }
-        <div className={`field level${level}`}>
+        <div className={`field level${level}`} data-testid="field">
           {field.map((card: TField, ind: number) => (
             <Card 
               key={ind}

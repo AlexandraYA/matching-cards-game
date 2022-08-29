@@ -6,7 +6,7 @@ interface IStartPanel {
 }
 
 const StartPanel: React.FC<IStartPanel> = ({ startGame, mode }) => (
-    <div className='coverage'>
+    <div className='coverage' data-testid="coverage">
         <button className='button' onClick={startGame}>
           {mode === 'greeting' ? "Играть" : "Вы проиграли(( Сыграть заново?"}
         </button>

@@ -12,6 +12,7 @@ const Card: React.FC<ICard> = ({ card, openCard }) => (
     <div
       className={card.show ? "open" : ""}
       onClick={openCard}
+      data-testid={card.show ? "card-open" : "card-closed"}
     >
       <img className='image-face' src={card.src} alt={`card face ${card.id}`} />
       <img className='image-back' src={CardBack} alt="card back" />

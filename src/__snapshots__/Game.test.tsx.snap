@@ -1,0 +1,241 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders start page level 1 should match snapshot 1`] = `
+<div
+  class="container"
+  data-testid="container"
+>
+  <header
+    class="header"
+  >
+    <h1
+      class="main-title"
+    >
+      Найди все совпадения
+    </h1>
+    <h3
+      class="rules"
+    >
+      <span>
+        Уровень 
+        1
+      </span>
+      <span>
+        Шаг 
+        20
+      </span>
+    </h3>
+  </header>
+  <div
+    class="playground"
+  >
+    <div
+      class="coverage"
+      data-testid="coverage"
+    >
+      <button
+        class="button"
+      >
+        Играть
+      </button>
+    </div>
+    <div
+      class="field level1"
+      data-testid="field"
+    >
+      <div
+        class=""
+        data-testid="card-closed"
+      >
+        <img
+          alt="card face 26"
+          class="image-face"
+          src="monkey.png"
+        />
+        <img
+          alt="card back"
+          class="image-back"
+          src="card-back-black.png"
+        />
+      </div>
+      <div
+        class=""
+        data-testid="card-closed"
+      >
+        <img
+          alt="card face 19"
+          class="image-face"
+          src="fisher.jpg"
+        />
+        <img
+          alt="card back"
+          class="image-back"
+          src="card-back-black.png"
+        />
+      </div>
+      <div
+        class=""
+        data-testid="card-closed"
+      >
+        <img
+          alt="card face 23"
+          class="image-face"
+          src="horse.png"
+        />
+        <img
+          alt="card back"
+          class="image-back"
+          src="card-back-black.png"
+        />
+      </div>
+      <div
+        class=""
+        data-testid="card-closed"
+      >
+        <img
+          alt="card face 23"
+          class="image-face"
+          src="horse.png"
+        />
+        <img
+          alt="card back"
+          class="image-back"
+          src="card-back-black.png"
+        />
+      </div>
+      <div
+        class=""
+        data-testid="card-closed"
+      >
+        <img
+          alt="card face 18"
+          class="image-face"
+          src="duck.png"
+        />
+        <img
+          alt="card back"
+          class="image-back"
+          src="card-back-black.png"
+        />
+      </div>
+      <div
+        class=""
+        data-testid="card-closed"
+      >
+        <img
+          alt="card face 28"
+          class="image-face"
+          src="penguin.png"
+        />
+        <img
+          alt="card back"
+          class="image-back"
+          src="card-back-black.png"
+        />
+      </div>
+      <div
+        class=""
+        data-testid="card-closed"
+      >
+        <img
+          alt="card face 28"
+          class="image-face"
+          src="penguin.png"
+        />
+        <img
+          alt="card back"
+          class="image-back"
+          src="card-back-black.png"
+        />
+      </div>
+      <div
+        class=""
+        data-testid="card-closed"
+      >
+        <img
+          alt="card face 11"
+          class="image-face"
+          src="zebra.png"
+        />
+        <img
+          alt="card back"
+          class="image-back"
+          src="card-back-black.png"
+        />
+      </div>
+      <div
+        class=""
+        data-testid="card-closed"
+      >
+        <img
+          alt="card face 18"
+          class="image-face"
+          src="duck.png"
+        />
+        <img
+          alt="card back"
+          class="image-back"
+          src="card-back-black.png"
+        />
+      </div>
+      <div
+        class=""
+        data-testid="card-closed"
+      >
+        <img
+          alt="card face 26"
+          class="image-face"
+          src="monkey.png"
+        />
+        <img
+          alt="card back"
+          class="image-back"
+          src="card-back-black.png"
+        />
+      </div>
+      <div
+        class=""
+        data-testid="card-closed"
+      >
+        <img
+          alt="card face 11"
+          class="image-face"
+          src="zebra.png"
+        />
+        <img
+          alt="card back"
+          class="image-back"
+          src="card-back-black.png"
+        />
+      </div>
+      <div
+        class=""
+        data-testid="card-closed"
+      >
+        <img
+          alt="card face 19"
+          class="image-face"
+          src="fisher.jpg"
+        />
+        <img
+          alt="card back"
+          class="image-back"
+          src="card-back-black.png"
+        />
+      </div>
+    </div>
+  </div>
+  <footer
+    class="footer"
+  >
+    <a
+      href="https://www.flaticon.com/ru/free-stickers/"
+      rel="noreferrer"
+      target="_blank"
+      title="свинья стикеры"
+    >
+      Стикеры от Stickers - Flaticon
+    </a>
+  </footer>
+</div>
+`;

@@ -117,7 +117,7 @@ const GamePage: React.FC = () => {
   }
 
   return ( 
-    <div className='container'>
+    <div className='container' data-testid="container">
       <Header level={level} step={step} />
       <div className='playground'>
         {(mode === 'greeting' || mode === 'end') &&

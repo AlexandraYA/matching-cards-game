@@ -2,34 +2,37 @@ import React from 'react';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import GamePage from './game/gamePage';
 
-test('renders start page level 1', () => {
-  render(<GamePage />);
+describe('renders start page level 1', () => {
 
-  const level1 = screen.getByText(/Уровень 1/i);
-  const step20 = screen.getByText("Шаг 20");
-  const field = screen.getByTestId("field");
-  const coverage = screen.getByTestId("coverage");
+  it('should be in page', async () => {
+    render(<GamePage />);
 
-  expect(level1).toBeInTheDocument();
-  expect(step20).toBeInTheDocument();
-  expect(coverage).toBeInTheDocument();
-  expect(field.childNodes.length).toEqual(12);
+    expect(screen.getByText(/Уровень 1/i)).toBeInTheDocument();
+    expect(screen.getByText(/Шаг 20/i)).toBeInTheDocument();
+    expect(screen.getByTestId("coverage")).toBeInTheDocument();
+    expect(screen.getAllByTestId(/card-closed/i)).toHaveLength(12);
+    expect(screen.getByTestId("field")).toHaveClass("level1");
+  });
+
 });
 
+describe('test click events', () => {
 
-test('flip card by click', async () => {
-  render(<GamePage />);
-
-  const field = screen.getByTestId("field");
-  fireEvent.click(field.childNodes[0]);
-
-  await waitFor(() => screen.findByTestId("card-open"));
-});
-
-
-test('hide coverage after click start btn', async () => {
-  render(<GamePage />);
+  it('flip card by click', async () => {
+    render(<GamePage />);
   
-  fireEvent.click(screen.getByRole("button"));
-  await waitFor(() => expect(screen.queryByTestId("coverage")).not.toBeInTheDocument());
+    const field = screen.getByTestId("field");
+    fireEvent.click(field.childNodes[0]);
+  
+    await waitFor(() => screen.findByTestId("card-open"));
+  });
+  
+  
+  it('hide coverage after click start btn', async () => {
+    render(<GamePage />);
+    
+    fireEvent.click(screen.getByRole("button"));
+    await waitFor(() => expect(screen.queryByTestId("coverage")).not.toBeInTheDocument());
+  });
+
 });

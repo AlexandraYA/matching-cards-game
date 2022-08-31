@@ -83,6 +83,12 @@ body {
   display: grid;
   gap: 10px;
 
+  & > div,
+  .image-back {
+    width: 80px;
+    height: 113px;
+  }
+
   &.level1 {
     grid-template-columns: repeat(4, 80px);
   }
@@ -92,17 +98,18 @@ body {
   }
 
   &.level3 {
-    grid-template-columns: repeat(12, 80px);
-  }
+    grid-template-columns: repeat(12, 70px);
 
-  & > div,
-  .image-back {
-    width: 80px;
-    height: 113px;
+    & > div,
+    .image-back {
+      width: 70px;
+      height: 99px;
+    }
   }
 
   .image-back {
     backface-visibility: hidden;
+    background: transparent;
     z-index: 2;
   }
 

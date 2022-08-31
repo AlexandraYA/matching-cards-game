@@ -10,12 +10,14 @@ interface ICard {
 
 const Card: React.FC<ICard> = ({ card, openCard }) => (
     <div
-      className={card.show ? "open" : ""}
+      className={card.found ? "found" : card.show ? "open" : ""}
       onClick={openCard}
       data-testid={card.show ? "card-open" : "card-closed"}
     >
-      <img className='image-face' src={card.src} alt={`card face ${card.id}`} />
+      <div className='image-face' ><img src={card.src} alt={`card face ${card.id}`} /></div>
       <img className='image-back' src={CardBack} alt="card back" />
+
+      {card.found && <div className="card-cover"></div>}
     </div>
 )
 

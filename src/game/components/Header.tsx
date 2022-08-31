@@ -8,7 +8,7 @@ interface IHeader {
 const Header: React.FC<IHeader> = ({ level, step }) => (
     <header className='header'>
       <h1 className='main-title'>Найди все совпадения</h1>
-      <h3 className='rules'><span>Уровень {level}</span><span>Шаг {step}</span></h3>
+      <h3 className='rules'><span>Уровень {level}/3</span><span>Осталось попыток {step}</span></h3>
     </header>
 )
 

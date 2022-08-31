@@ -25,9 +25,7 @@ const GamePage: React.FC = () => {
   const  [ field, setField ] = useState<TField[]>([])
 
   useEffect(() => {
-    if (level === 1 && !field.length) {
-      fillField(LEVEL_1.cards)
-    }
+    fillField(LEVEL_1.cards)
 
     return () => clearTimeout(timeoutID)
   }, [])

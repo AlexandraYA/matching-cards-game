@@ -94,8 +94,6 @@ const GamePage: React.FC = () => {
           }
       } else if (step === 0) {
         endGame(true)
-      } else {
-        setStep(step - 1)
       }
   }
 
@@ -103,8 +101,12 @@ const GamePage: React.FC = () => {
     let choosedEqual: boolean = false
     const _choosed: number[] = checkChoosedCards(cardInd)
 
-    if (_choosed.length === 2 && field[_choosed[0]].id === field[_choosed[1]].id) {
-      choosedEqual = true
+    if (_choosed.length === 2) {
+        if (field[_choosed[0]].id === field[_choosed[1]].id) {
+            choosedEqual = true
+        } else if (_choosed.length === 2) {
+            setStep(step - 1)
+        }
     }
 
     let _field = prepareCards(choosedEqual, _choosed)

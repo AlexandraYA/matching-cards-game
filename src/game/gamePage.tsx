@@ -8,18 +8,21 @@ import { StartPanel } from './components/StartPanel'
 import { TField } from '../store/types'
 
 
+type TModes = 'start' | 'endFail' | 'endWin' | 'loading'
+
 const LEVEL_1 = {steps: 20, cards: 6}
 const LEVEL_2 = {steps: 40, cards: 12}
 const LEVEL_3 = {steps: 80, cards: 24}
 
 let timeoutID: any = null
+const delay = 2000
 
 
 const GamePage: React.FC = () => {
   const cards = useContext(CardsBase);
 
   const  [ level, setLevel ] = useState<number>(1)
-  const  [ mode, setMode ] = useState<'greeting' | 'start' | 'end' | 'loading'>('greeting')
+  const  [ mode, setMode ] = useState<TModes>('start')
   const  [ step, setStep ] = useState<number>(LEVEL_1.steps)
   const  [ choosedCards, setChoosedCards ] = useState<number[]>([])
   const  [ field, setField ] = useState<TField[]>([])
@@ -51,14 +54,21 @@ const GamePage: React.FC = () => {
     setField(_field.sort(() => Math.random() - 0.5))
   }
 
-  const startGame = () => {
+  const reStartGame = () => {
     setMode('start')
+    fillField(LEVEL_1.cards)
+    setStep(LEVEL_1.steps)
+    setLevel(1)
   }
 
-  const checkChoosedCards = (cardInd: number) => {
-      if (choosedCards.length < 2) {
-          return [...choosedCards, cardInd]
-      } else return [cardInd]
+  const checkChoosedCards = (cardInd: number): number[] => {
+      if (choosedCards.includes(cardInd)) {
+          return choosedCards
+      } else {
+          if (choosedCards.length < 2) {
+              return [...choosedCards, cardInd]
+          } else return [cardInd]
+      }
   }
 
   const prepareCards = (choosedEqual: boolean, _choosed: number[]) => {
@@ -71,11 +81,8 @@ const GamePage: React.FC = () => {
       })
   }
 
-  const endGame = (ifEnd: boolean) => {
-      setMode(ifEnd ? 'end' : 'greeting')
-      fillField(LEVEL_1.cards)
-      setStep(LEVEL_1.steps)
-      setLevel(1)
+  const endGame = (endMode: string) => {
+      setMode(endMode as TModes)
       setChoosedCards([])
   }
 
@@ -88,12 +95,12 @@ const GamePage: React.FC = () => {
               setLevel(level + 1)
               setStep(level === 1 ? LEVEL_2.steps : LEVEL_3.steps)
               setMode('start')
-            }, 2000)
+            }, delay)
           } else {
-            endGame(false)
+            endGame('endWin')
           }
       } else if (step === 0) {
-        endGame(true)
+        endGame('endFail')
       }
   }
 
@@ -120,8 +127,8 @@ const GamePage: React.FC = () => {
     <div className='container' data-testid="container">
       <Header level={level} step={step} />
       <div className='playground'>
-        {(mode === 'greeting' || mode === 'end') &&
-          <StartPanel startGame={startGame} mode={mode} />
+        {(mode === 'endFail' || mode === 'endWin') &&
+          <StartPanel startGame={reStartGame} mode={mode} />
         }
         {mode === 'loading' && <Loading /> }
         <div className={`field level${level}`} data-testid="field">

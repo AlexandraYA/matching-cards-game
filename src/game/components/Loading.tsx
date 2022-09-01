@@ -3,7 +3,10 @@ import React from "react"
 
 const Loading: React.FC = () => (
     <div className='coverage'>
-        <button className='button'>Загружаем следующий уровень</button>
+        <div className='loading'>
+          <p>Загружаем следующий уровень</p>
+          <div className="loader"><div className="flipper"></div></div>
+        </div>
     </div>
 )
 

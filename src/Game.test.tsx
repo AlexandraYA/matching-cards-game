@@ -10,7 +10,6 @@ describe('renders start page level 1', () => {
 
     expect(screen.getByText(/Уровень 1/i)).toBeInTheDocument();
     expect(screen.getByText(/попыток 20/i)).toBeInTheDocument();
-    expect(screen.getByTestId("coverage")).toBeInTheDocument();
     expect(screen.getAllByTestId(/card-closed/i)).toHaveLength(12);
     expect(screen.getByTestId("field")).toHaveClass("level1");
   });
@@ -29,10 +28,37 @@ describe('test click events', () => {
   });
   
   
-  it('hide coverage after click start btn', async () => {
+  it('should not mark as found', async () => {
     render(<GamePage />);
     
-    userEvent.click(screen.getByRole("button"));
-    await waitFor(() => expect(screen.queryByTestId("coverage")).not.toBeInTheDocument());
+    const firstCard = screen.getAllByTestId(/card-closed/i)[0];
+    userEvent.click(firstCard);
+    expect(firstCard).toHaveClass("open");
+    userEvent.click(firstCard);
+    expect(firstCard).not.toHaveClass("found");
+  });
+
+
+  it('should not flip back', async () => {
+    render(<GamePage />);
+    
+    const firstCard = screen.getAllByTestId("card-closed")[0];
+    userEvent.click(firstCard);
+    userEvent.click(screen.getAllByTestId("card-closed")[1]);
+    expect(screen.getAllByTestId("card-open")).toHaveLength(2);
+
+    userEvent.click(firstCard);
+    expect(screen.getAllByTestId("card-open")).toHaveLength(2);
+  });
+
+  it('should not decrease steps', async () => {
+    render(<GamePage />);
+    
+    const firstCard = screen.getAllByTestId("card-closed")[0];
+    userEvent.click(firstCard);
+    userEvent.click(firstCard);
+    userEvent.click(firstCard);
+    expect(screen.getByText(/попыток 20/i)).toBeInTheDocument();
   });
 });
+

@@ -15,7 +15,7 @@ const LEVEL_2 = {steps: 40, cards: 12}
 const LEVEL_3 = {steps: 80, cards: 24}
 
 let timeoutID: any = null
-const delay = 2000
+const delay = 2500
 
 
 const GamePage: React.FC = () => {
@@ -62,13 +62,9 @@ const GamePage: React.FC = () => {
   }
 
   const checkChoosedCards = (cardInd: number): number[] => {
-      if (choosedCards.includes(cardInd)) {
-          return choosedCards
-      } else {
-          if (choosedCards.length < 2) {
-              return [...choosedCards, cardInd]
-          } else return [cardInd]
-      }
+      if (choosedCards.length < 2) {
+          return [...choosedCards, cardInd]
+      } else return [cardInd]
   }
 
   const prepareCards = (choosedEqual: boolean, _choosed: number[]) => {
@@ -105,22 +101,24 @@ const GamePage: React.FC = () => {
   }
 
   const openCard = (cardInd: number) => {
-    let choosedEqual: boolean = false
-    const _choosed: number[] = checkChoosedCards(cardInd)
+    if (!choosedCards.includes(cardInd)) {
+      let choosedEqual: boolean = false
+      const _choosed: number[] = checkChoosedCards(cardInd)
 
-    if (_choosed.length === 2) {
-        if (field[_choosed[0]].id === field[_choosed[1]].id) {
-            choosedEqual = true
-        } else if (_choosed.length === 2) {
-            setStep(step - 1)
-        }
+      if (_choosed.length === 2) {
+          if (field[_choosed[0]].id === field[_choosed[1]].id) {
+              choosedEqual = true
+          } else if (_choosed.length === 2) {
+              setStep(step - 1)
+          }
+      }
+
+      let _field = prepareCards(choosedEqual, _choosed)
+
+      setChoosedCards(_choosed)
+      setField(_field)
+      checkIfEnd(_field)
     }
-
-    let _field = prepareCards(choosedEqual, _choosed)
-
-    setChoosedCards(_choosed)
-    setField(_field)
-    checkIfEnd(_field)
   }
 
   return ( 

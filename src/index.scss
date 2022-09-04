@@ -159,7 +159,6 @@ body {
   .image-back {
     backface-visibility: hidden;
     background: transparent;
-    z-index: 2;
   }
 
   .image-face {
@@ -169,7 +168,6 @@ body {
     background: #ffffff;
     width: 100%;
     height: 100%;
-    z-index: 1;
 
     & > img {
       width: 90%;
@@ -210,13 +208,7 @@ body {
         transform: rotateY(180deg);
       }
 
-      .image-face {
-        z-index: 2;
-      }
-
-      .image-back {
-        z-index: 1;
-      }
+      
     }
 
     &:hover {
